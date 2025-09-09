@@ -1375,7 +1375,7 @@ if page == "🏠 Simulator":
             smart_thermostats_adopt, integrated_security_adopt, ev_charging_adopt
         )
         
-        # Calculate ROI with each feature's impact
+        # Calculate ROI with each feature's impact - extract numeric value from dict
         base_roi_value = base_roi['roi'] if isinstance(base_roi, dict) else base_roi
         sensitivity = {
             "Solar Impact": [
