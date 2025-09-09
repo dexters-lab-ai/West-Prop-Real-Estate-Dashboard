@@ -2060,8 +2060,8 @@ def create_property_card(property_data, show_contact=False):
 def load_map_data():
     try:
         # Load and preprocess map data
-                df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
-        
+        df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
+
         # Convert ROI to numeric, handling any non-numeric values
         if 'ROI (%)' in df.columns:
             df['ROI (%)'] = pd.to_numeric(df['ROI (%)'], errors='coerce')
