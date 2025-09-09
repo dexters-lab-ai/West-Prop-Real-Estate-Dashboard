@@ -2321,13 +2321,13 @@ if page == "🗺️ ROI Map":
                 
                 # Try to read existing votes
                 try:
-                                        existing_votes = pd.read_csv(os.path.join("data", "vote_results.csv"))
+                    existing_votes = pd.read_csv(os.path.join("data", "vote_results.csv"))
                     vote_data = pd.concat([existing_votes, new_vote], ignore_index=True)
                 except FileNotFoundError:
                     vote_data = new_vote
                 
                 # Save to CSV
-                                vote_data.to_csv(os.path.join("data", "vote_results.csv"), index=False)
+                vote_data.to_csv(os.path.join("data", "vote_results.csv"), index=False)
                 st.success("✅ Your vote has been recorded for this project!")
                 
             except Exception as e:
