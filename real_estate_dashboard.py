@@ -912,13 +912,14 @@ if page == "🏠 Simulator":
         }
         snapshot_df = pd.DataFrame([snapshot])
         # Ensure data directory exists
-        os.makedirs("data", exist_ok=True)
-                file_path = os.path.join(DATA_DIR, "session_log.csv")
+        os.makedirs(DATA_DIR, exist_ok=True)
+        file_path = os.path.join(DATA_DIR, "session_log.csv")
         snapshot_df.to_csv(file_path, mode='a', header=not os.path.exists(file_path), index=False)
 
     # --- Load Past Simulation ---
     with st.expander("💾 Load Past Simulation", expanded=False):
         try:
+{{ ... }}
             # Read the session log from the data directory
                         session_log_path = os.path.join(DATA_DIR, "session_log.csv")
             if os.path.exists(session_log_path):
