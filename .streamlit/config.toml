@@ -1,0 +1,18 @@
+[server]
+# Run Streamlit in headless mode, which is recommended for containerized deployments.
+headless = true
+
+# Enable Cross-Origin Resource Sharing (CORS) protection.
+# This is the default, but we set it explicitly for clarity.
+# For production, you should configure your reverse proxy (e.g., Nginx)
+# to handle CORS and only allow requests from your specific domain.
+enableCORS = true
+
+[browser]
+# Set the server address to your application's public URL.
+# This helps Streamlit construct correct URLs and improves security.
+# For production, uncomment the line below and set it to your app's public URL.
+serverAddress = "placeholder.digitialocean.com"
+
+# Disable collection of usage statistics.
+gatherUsageStats = false

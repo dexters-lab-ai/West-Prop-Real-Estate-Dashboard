@@ -1,0 +1,38 @@
+# Git files
+.git
+.gitignore
+
+# Python virtual environment
+venv
+.venv
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and editor directories
+.vscode
+.idea
+
+# Local environment file
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test files
+*.test.py
+tests/
+
+# Notebooks
+*.ipynb
+
+# Local data and logs that shouldn't be in the image
+sessions/
+session_log.csv
+viewing_requests.csv
+vote_results.csv
+email_service.log
