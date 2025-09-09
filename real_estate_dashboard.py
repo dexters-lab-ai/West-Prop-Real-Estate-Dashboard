@@ -2060,7 +2060,7 @@ def create_property_card(property_data, show_contact=False):
 def load_map_data():
     try:
         # Load and preprocess map data
-        df = pd.read_csv("westprop_streamlit_dataset.csv")
+                df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
         
         # Convert ROI to numeric, handling any non-numeric values
         if 'ROI (%)' in df.columns:
@@ -2111,7 +2111,7 @@ if page == "🗺️ ROI Map":
 
     # Load data safely with explicit path
     try:
-        df = pd.read_csv("data/westprop_streamlit_dataset.csv")
+        df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
         # Ensure required columns exist and have proper data types
         required_columns = ["Project", "Latitude", "Longitude", "ROI (%)"]
         for col in required_columns:
@@ -2321,13 +2321,13 @@ if page == "🗺️ ROI Map":
                 
                 # Try to read existing votes
                 try:
-                    existing_votes = pd.read_csv("vote_results.csv")
+                                        existing_votes = pd.read_csv(os.path.join("data", "vote_results.csv"))
                     vote_data = pd.concat([existing_votes, new_vote], ignore_index=True)
                 except FileNotFoundError:
                     vote_data = new_vote
                 
                 # Save to CSV
-                vote_data.to_csv("vote_results.csv", index=False)
+                                vote_data.to_csv(os.path.join("data", "vote_results.csv"), index=False)
                 st.success("✅ Your vote has been recorded for this project!")
                 
             except Exception as e:
@@ -2356,7 +2356,7 @@ if page == "🗺️ ROI Map":
         
         # Load votes data
         try:
-            recent_votes = pd.read_csv("vote_results.csv")
+                        recent_votes = pd.read_csv(os.path.join("data", "vote_results.csv"))
             if recent_votes.empty:
                 st.warning("No votes recorded yet.")
             else:
@@ -2534,8 +2534,8 @@ if page == "🗺️ ROI Map":
                               type="primary"):
                         try:
                             # Delete the vote results file
-                            if os.path.exists("vote_results.csv"):
-                                os.remove("vote_results.csv")
+                            if os.path.exists(os.path.join("data", "vote_results.csv")):
+                                                                os.remove(os.path.join("data", "vote_results.csv"))
                                 st.success("All votes have been successfully reset.")
                                 st.rerun()
                             else:
@@ -2795,7 +2795,7 @@ if page == "🗺️ ROI Map":
     
     # ... rest of the code remains the same ...
         try:
-            vote_df = pd.read_csv("vote_results.csv")
+            vote_df = pd.read_csv(os.path.join("data", "vote_results.csv"))
             if vote_df.empty:
                 st.info("No votes yet. Chart will appear once votes are recorded.")
             else:
@@ -3247,7 +3247,7 @@ def show_property_details(property_data):
                 }
                 
                 # Define CSV file path
-                csv_file = 'viewing_requests.csv'
+                                csv_file = os.path.join('data', 'viewing_requests.csv')
                 file_exists = os.path.isfile(csv_file)
                 
                 # Write to CSV
