@@ -1376,30 +1376,31 @@ if page == "🏠 Simulator":
         )
         
         # Calculate ROI with each feature's impact
+        base_roi_value = base_roi['roi'] if isinstance(base_roi, dict) else base_roi
         sensitivity = {
             "Solar Impact": [
-                base_roi - (SOLAR_SAVINGS * 12 / base_price * 100 * (solar_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (SOLAR_SAVINGS * 12 / base_price * 100 * (solar_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ],
             "Water Recycling Impact": [
-                base_roi - (WATER_RECYCLING_SAVINGS * 12 / base_price * 100 * (water_recycling_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (WATER_RECYCLING_SAVINGS * 12 / base_price * 100 * (water_recycling_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ],
             "Smart Locks Impact": [
-                base_roi - (SMART_LOCKS_SAVINGS * 12 / base_price * 100 * (smart_locks_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (SMART_LOCKS_SAVINGS * 12 / base_price * 100 * (smart_locks_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ],
             "Smart Thermostats Impact": [
-                base_roi - (SMART_THERMOSTATS_SAVINGS * 12 / base_price * 100 * (smart_thermostats_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (SMART_THERMOSTATS_SAVINGS * 12 / base_price * 100 * (smart_thermostats_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ],
             "Integrated Security Impact": [
-                base_roi - (INTEGRATED_SECURITY_SAVINGS * 12 / base_price * 100 * (integrated_security_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (INTEGRATED_SECURITY_SAVINGS * 12 / base_price * 100 * (integrated_security_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ],
             "EV Charging Impact": [
-                base_roi - (EV_CHARGING_SAVINGS * 12 / base_price * 100 * (ev_charging_adopt/100) * SMART_FEATURE_MULTIPLIER),
-                base_roi
+                base_roi_value - (EV_CHARGING_SAVINGS * 12 / base_price * 100 * (ev_charging_adopt/100) * SMART_FEATURE_MULTIPLIER),
+                base_roi_value
             ]
         }
 
