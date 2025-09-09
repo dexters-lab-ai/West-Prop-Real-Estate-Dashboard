@@ -487,7 +487,7 @@ pt = joblib.load("models/roi_transformer.pkl") # PowerTransformer for inverse tr
 model_features = joblib.load("models/model_features.pkl") # List of features the model was trained on
 
 # Load the real estate data template with all calculated ROIs
-real_estate_df = pd.read_csv(os.path.join(DATA_DIR, "real_estate_data_template.csv"))
+real_estate_df = pd.read_csv("data/real_estate_data_template.csv")
 
 # --- Smart Feature Savings (Updated based on research) ---
 SMART_FEATURE_MULTIPLIER = 1.5  # Multiplier for smart feature impact
@@ -912,16 +912,15 @@ if page == "🏠 Simulator":
         }
         snapshot_df = pd.DataFrame([snapshot])
         # Ensure data directory exists
-        os.makedirs(DATA_DIR, exist_ok=True)
-        file_path = os.path.join(DATA_DIR, "session_log.csv")
+        os.makedirs("data", exist_ok=True)
+        file_path = os.path.join("data", "session_log.csv")
         snapshot_df.to_csv(file_path, mode='a', header=not os.path.exists(file_path), index=False)
 
     # --- Load Past Simulation ---
     with st.expander("💾 Load Past Simulation", expanded=False):
         try:
-{{ ... }}
             # Read the session log from the data directory
-                        session_log_path = os.path.join(DATA_DIR, "session_log.csv")
+            session_log_path = os.path.join("data", "session_log.csv")
             if os.path.exists(session_log_path):
                 session_df = pd.read_csv(session_log_path)
                 
@@ -2061,8 +2060,8 @@ def create_property_card(property_data, show_contact=False):
 def load_map_data():
     try:
         # Load and preprocess map data
-        df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
-
+        df = pd.read_csv("westprop_streamlit_dataset.csv")
+        
         # Convert ROI to numeric, handling any non-numeric values
         if 'ROI (%)' in df.columns:
             df['ROI (%)'] = pd.to_numeric(df['ROI (%)'], errors='coerce')
@@ -2112,7 +2111,7 @@ if page == "🗺️ ROI Map":
 
     # Load data safely with explicit path
     try:
-        df = pd.read_csv(os.path.join("data", "westprop_streamlit_dataset.csv"))
+        df = pd.read_csv("data/westprop_streamlit_dataset.csv")
         # Ensure required columns exist and have proper data types
         required_columns = ["Project", "Latitude", "Longitude", "ROI (%)"]
         for col in required_columns:
@@ -2133,7 +2132,7 @@ if page == "🗺️ ROI Map":
             st.stop()
             
     except FileNotFoundError:
-        st.error(f"Error: {os.path.join(DATA_DIR, 'westprop_streamlit_dataset.csv')} not found. Please ensure the file exists in the data/ directory.")
+        st.error("Error: data/westprop_streamlit_dataset.csv not found. Please ensure the file exists in the data/ directory.")
         st.stop()
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
@@ -2322,13 +2321,13 @@ if page == "🗺️ ROI Map":
                 
                 # Try to read existing votes
                 try:
-                    existing_votes = pd.read_csv(os.path.join("data", "vote_results.csv"))
+                    existing_votes = pd.read_csv("vote_results.csv")
                     vote_data = pd.concat([existing_votes, new_vote], ignore_index=True)
                 except FileNotFoundError:
                     vote_data = new_vote
                 
                 # Save to CSV
-                vote_data.to_csv(os.path.join(DATA_DIR, "vote_results.csv"), index=False)
+                vote_data.to_csv("vote_results.csv", index=False)
                 st.success("✅ Your vote has been recorded for this project!")
                 
             except Exception as e:
@@ -2357,7 +2356,7 @@ if page == "🗺️ ROI Map":
         
         # Load votes data
         try:
-            recent_votes = pd.read_csv(os.path.join(DATA_DIR, "vote_results.csv"))
+            recent_votes = pd.read_csv("vote_results.csv")
             if recent_votes.empty:
                 st.warning("No votes recorded yet.")
             else:
@@ -2535,10 +2534,12 @@ if page == "🗺️ ROI Map":
                               type="primary"):
                         try:
                             # Delete the vote results file
-                            if os.path.exists(os.path.join(DATA_DIR, "vote_results.csv")):
-                                os.remove(os.path.join(DATA_DIR, "vote_results.csv"))
-                            st.success("All votes have been successfully reset.")
-                            st.rerun()
+                            if os.path.exists("vote_results.csv"):
+                                os.remove("vote_results.csv")
+                                st.success("All votes have been successfully reset.")
+                                st.rerun()
+                            else:
+                                st.warning("No vote records found to delete.")
                         except Exception as e:
                             st.error(f"Error resetting votes: {str(e)}")
                 
@@ -2794,7 +2795,7 @@ if page == "🗺️ ROI Map":
     
     # ... rest of the code remains the same ...
         try:
-            vote_df = pd.read_csv(os.path.join(DATA_DIR, "vote_results.csv"))
+            vote_df = pd.read_csv("vote_results.csv")
             if vote_df.empty:
                 st.info("No votes yet. Chart will appear once votes are recorded.")
             else:
@@ -3246,7 +3247,7 @@ def show_property_details(property_data):
                 }
                 
                 # Define CSV file path
-                csv_file = os.path.join(DATA_DIR, 'viewing_requests.csv')
+                csv_file = 'viewing_requests.csv'
                 file_exists = os.path.isfile(csv_file)
                 
                 # Write to CSV
@@ -3724,7 +3725,7 @@ elif page == "🔔 Alerts":
                 try:
                     # Ensure data directory exists
                     os.makedirs('data', exist_ok=True)
-                                        subscribers_file = os.path.join(DATA_DIR, 'email_alert_subscribers.csv')
+                    subscribers_file = 'data/email_alert_subscribers.csv'
                     
                     # Create or update the subscribers file
                     if not os.path.exists(subscribers_file):
@@ -3777,7 +3778,7 @@ elif page == "🔔 Alerts":
         os.makedirs('data', exist_ok=True)
         
         # Define subscribers file path
-                subscribers_path = os.path.join(DATA_DIR, 'email_alert_subscribers.csv')
+        subscribers_path = os.path.join('data', 'email_alert_subscribers.csv')
         
         # Create empty subscribers file if it doesn't exist
         if not os.path.exists(subscribers_path):
@@ -3862,7 +3863,7 @@ elif page == "🔔 Alerts":
                                 subscribers_df.at[idx, 'status'] = edited_status
                                 # Save changes
                                 os.makedirs('data', exist_ok=True)
-                                                                subscribers_df.to_csv(os.path.join(DATA_DIR, "email_alert_subscribers.csv"), index=False)
+                                subscribers_df.to_csv("data/email_alert_subscribers.csv", index=False)
                                 st.success("✅ Subscriber updated successfully!")
                                 st.session_state.editing_subscriber = None
                                 st.rerun()
@@ -3884,7 +3885,7 @@ elif page == "🔔 Alerts":
                 if st.button(f"🗑️ Delete {subscriber['email']}", key=f"delete_{idx}"):
                     subscribers_df = subscribers_df.drop(index=idx)
                     os.makedirs('data', exist_ok=True)
-                                                    subscribers_df.to_csv(os.path.join(DATA_DIR, "email_alert_subscribers.csv"), index=False)
+                    subscribers_df.to_csv("data/email_alert_subscribers.csv", index=False)
                     st.success("✅ Subscriber deleted successfully!")
                     st.rerun()
             
@@ -3921,7 +3922,7 @@ elif page == "🔔 Alerts":
                             # Append to existing data and save
                             subscribers_df = pd.concat([subscribers_df, new_subscriber], ignore_index=True)
                             os.makedirs('data', exist_ok=True)
-                                                            subscribers_df.to_csv(os.path.join(DATA_DIR, "email_alert_subscribers.csv"), index=False)
+                            subscribers_df.to_csv("data/email_alert_subscribers.csv", index=False)
                             st.success(f"✅ {new_email} has been added as a subscriber!")
                             st.rerun()
                     else:
@@ -4170,7 +4171,7 @@ elif page == "🔔 Alerts":
                     
                     # Save the changes back to the CSV in the data directory
                     os.makedirs('data', exist_ok=True)
-                                        editable_df.to_csv(os.path.join(DATA_DIR, "email_alert_subscribers.csv"), index=False)
+                    editable_df.to_csv("data/email_alert_subscribers.csv", index=False)
                     st.success(" Changes saved successfully!")
                     st.rerun()
                 except Exception as e:
@@ -4230,7 +4231,7 @@ elif page == "🔔 Alerts":
                                 # Update subscriber last_sent timestamps
                                 if not filtered_subs.empty and 'email' in filtered_subs.columns:
                                     subscribers_df.loc[subscribers_df['email'].isin(filtered_subs['email']), 'last_sent'] = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
-                                                                    subscribers_df.to_csv(os.path.join(DATA_DIR, "email_alert_subscribers.csv"), index=False)
+                                    subscribers_df.to_csv("data/email_alert_subscribers.csv", index=False)
                                 
                                 # Show success message
                                 st.success(f"✅ Successfully sent {success_count} emails!")
@@ -4343,7 +4344,7 @@ def send_bulk_email(recipients_df, subject, body):
         if 'last_sent' in recipients_df.columns and not recipients_df.empty:
             # Update the main subscribers dataframe
             subscribers_df.update(recipients_df[['last_sent']])
-                        subscribers_df.to_csv(os.path.join(DATA_DIR, 'email_alert_subscribers.csv'), index=False)
+            subscribers_df.to_csv('email_alert_subscribers.csv', index=False)
         
         # Show completion message
         st.success(f"✅ Email campaign completed! Sent: {success_count}, Failed: {error_count}")
@@ -4393,7 +4394,7 @@ def send_bulk_email(recipients_df, subject, body):
                 }
                 
                 # File path for subscriptions
-                                csv_file = os.path.join(DATA_DIR, 'email_alert_subscribers.csv')
+                csv_file = 'email_alert_subscribers.csv'
                 file_exists = os.path.isfile(csv_file)
                 
                 # Check if email already exists
@@ -4451,8 +4452,8 @@ if page == "🏆 Community Insights":
 
     # --- Most Simulated Project ---
     st.subheader("📈 Most Simulated Project")
-        if os.path.exists(os.path.join(DATA_DIR, "session_log.csv")):
-                log_df = pd.read_csv(os.path.join(DATA_DIR, "session_log.csv"))
+    if os.path.exists("session_log.csv"):
+        log_df = pd.read_csv("session_log.csv")
         if not log_df.empty and "Market Price" in log_df.columns:
             if "Project" in log_df.columns:
                 most_sim_project = log_df["Project"].value_counts().idxmax()
@@ -4467,8 +4468,8 @@ if page == "🏆 Community Insights":
 
     # --- Top ROI Location (from voting data) ---
     st.subheader("📍 Top ROI Location (by Simulated ROI)")
-        if os.path.exists(os.path.join(DATA_DIR, "vote_results.csv")):
-                vote_df = pd.read_csv(os.path.join(DATA_DIR, "vote_results.csv"))
+    if os.path.exists("vote_results.csv"):
+        vote_df = pd.read_csv("vote_results.csv")
         if not vote_df.empty and "ROI (%)" in vote_df.columns:
             top_roi = vote_df.loc[vote_df["ROI (%)"].idxmax()]
             st.metric("Top ROI", f"{top_roi['ROI (%)']:.2f}%")
@@ -4480,8 +4481,8 @@ if page == "🏆 Community Insights":
 
     # --- Investor Sentiment Trends ---
     st.subheader("🗳️ Investor Sentiment Trends")
-        if os.path.exists(os.path.join(DATA_DIR, "vote_results.csv")):
-                vote_df = pd.read_csv(os.path.join(DATA_DIR, "vote_results.csv"))
+    if os.path.exists("vote_results.csv"):
+        vote_df = pd.read_csv("vote_results.csv")
         if not vote_df.empty and "Vote" in vote_df.columns:
             sentiment = vote_df["Vote"].value_counts(normalize=True) * 100
             yes_pct = sentiment.get("Yes", 0)
@@ -4629,7 +4630,7 @@ elif page == "🛡️ Admin Analytics":
     # Only show this content if logged in
     st.subheader("Session Log Analysis")
     try:
-                session_df = pd.read_csv(os.path.join(DATA_DIR, "session_log.csv"))
+        session_df = pd.read_csv("session_log.csv")
         st.write(f"Total Simulations Recorded: {len(session_df)}")
         st.dataframe(session_df)
 
